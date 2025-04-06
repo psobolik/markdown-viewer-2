@@ -4,6 +4,7 @@ use std::path::PathBuf;
 // use leptos::logging::log;
 use wasm_bindgen::prelude::*;
 
+// import { invoke } from "@tauri-apps/api/core";
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = ["window", "__TAURI__", "core"], catch, js_name=invoke)]
@@ -24,7 +25,7 @@ pub fn App() -> impl IntoView {
         signal(None);
 
     fn path_for_display(path: Option<PathBuf>) -> String {
-        leptos::logging::log!("path for display: {path:?}");
+        // leptos::logging::log!("path for display: {path:?}");
         if let Some(path) = path {
             path.display().to_string()
         } else {
@@ -35,18 +36,12 @@ pub fn App() -> impl IntoView {
 
     async fn path_argument() -> Option<PathBuf> {
         let path_argument = invoke_option("path_argument").await;
+
         match path_argument.as_string() {
             Some(path) => Some(PathBuf::from(path)),
             None => None,
         }
     }
-    // async fn path_argument() -> Option<PathBuf> {
-    //     let path_argument = invoke_option("path_argument").await;
-    //     match path_argument.as_string() {
-    //         Some(path) => Some(PathBuf::from(path)),
-    //         None => None,
-    //     }
-    // }
 
     async fn format_file(path: Option<PathBuf>) -> Result<String, String> {
         if let Some(path) = path {
