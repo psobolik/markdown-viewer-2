@@ -32,7 +32,6 @@ pub fn App() -> impl IntoView {
             String::from("No file specified")
         }
     }
-    let header = Memo::new(move |_| path_for_display(path.get()));
 
     async fn path_argument() -> Option<PathBuf> {
         let path_argument = invoke_option("path_argument").await;
@@ -46,16 +45,16 @@ pub fn App() -> impl IntoView {
     async fn format_file(path: Option<PathBuf>) -> Result<String, String> {
         if let Some(path) = path {
             let args = serde_wasm_bindgen::to_value(&FormatFileArgs { file: path }).unwrap();
-            let text = invoke_result("format_file", args).await;
-            match text {
-                Ok(text) => Ok(text.as_string().unwrap()),
-                Err(error) => Err(error.as_string().unwrap()),
+            match invoke_result("format_file", args).await {
+                Ok(text) => Ok(text.as_string().unwrap_or_default()),
+                Err(error) => Err(error.as_string().unwrap_or(String::from("Error"))),
             }
         } else {
             Ok(String::default())
         }
     }
 
+    let header = Memo::new(move |_| path_for_display(path.get()));
     let file_resource = LocalResource::new(move || path_argument());
     let content_resource = LocalResource::new(move || format_file(path.get()));
 
