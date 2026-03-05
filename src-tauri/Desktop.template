@@ -7,4 +7,4 @@ Name={{name}}
 Terminal=false
 Type=Application
 NoDisplay=true
-MimeType="text/markdown"
+MimeType=text/markdown
