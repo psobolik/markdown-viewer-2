@@ -26,7 +26,7 @@
   "bundle": {
     "shortDescription": "A Markdown file viewer",
     "copyright": "© 2025, 2026 Paul Sobolik",
-    "licenseFile": "LICENSE",
+    "licenseFile": "../LICENSE",
     "active": true,
     "targets": "all",
     "icon": [
